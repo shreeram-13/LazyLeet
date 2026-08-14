@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LazyLeet</title>
+
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+    <main class="popup">
+
+        <!-- Header -->
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="lazyleet-modal-logo"><img src="icons/lazyleetlogo.png" alt="⚡"></div>
+
+                <div class="brand-text">
+                    <h1>LazyLeet</h1>
+                    <span>LeetCode → GitHub</span>
+                </div>
+
+            </div>
+
+            <div class="status-dot"></div>
+
+        </header>
+
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+
+        <!-- Current status -->
+        <section class="status">
+
+            <div class="status-line">
+
+                <span class="status-indicator"></span>
+
+                <div>
+                    <h2 id="statusTitle">
+                        LazyLeet is ready
+                    </h2>
+
+                    <p id="statusText">
+                        Open a LeetCode problem to start saving solutions.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- How it works -->
+        <section class="info">
+
+            <h3>How it works</h3>
+
+            <div class="step">
+                <span>01</span>
+                <p>Submit your solution on LeetCode.</p>
+            </div>
+
+            <div class="step">
+                <span>02</span>
+                <p>LazyLeet detects an accepted submission.</p>
+            </div>
+
+            <div class="step">
+                <span>03</span>
+                <p>Your code is saved to GitHub.</p>
+            </div>
+
+        </section>
+
+
+        <!-- GitHub button -->
+        <button id="githubBtn">
+            <span>Open GitHub</span>
+            <span class="arrow">↗</span>
+        </button>
+
+
+        <!-- Footer -->
+        <footer>
+            LazyLeet v1.1.0
+        </footer>
+
+    </main>
+
+
+    <script src="popup.js"></script>
+
+</body>
+
+</html>

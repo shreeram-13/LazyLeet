@@ -1,18 +1,28 @@
 {
-  "manifest_version": 3,
-  "name": "LazyLeet",
-  "version": "1.0.0",
-  "description": "Automatically saves accepted LeetCode solutions to GitHub.",
-  "content_scripts": [
-    {
-      "matches": ["https://leetcode.com/problems/*"],
-      "js": ["page-bridge.js"],
-      "world": "MAIN"
+    "manifest_version": 3,
+    "name": "LazyLeet",
+    "version": "1.1.0",
+    "icons": {
+    "128": "icons/lazyleetlogo.png"
     },
-    {
-      "matches": ["https://leetcode.com/problems/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"]
-    }
-  ]
+    "description": "Automatically saves accepted LeetCode solutions to GitHub.",
+    "permissions": [
+      "tabs"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://leetcode.com/problems/*"],
+            "js": ["page-bridge.js"],
+            "world": "MAIN"
+        },
+        {
+            "matches": ["https://leetcode.com/problems/*"],
+            "js": ["content.js"],
+            "css": ["styles.css"]
+        }
+    ]
 }

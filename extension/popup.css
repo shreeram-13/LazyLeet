@@ -1,0 +1,290 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 310px;
+    height: 345px;
+}
+
+body {
+    background: #0d1117;
+    color: #e6edf3;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.popup {
+    width: 310px;
+    min-height: 345px;
+
+    padding: 17px 18px 13px;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.logo {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #161b22;
+    border: 1px solid #30363d;
+
+    font-size: 16px;
+}
+
+.lazyleet-modal-logo {
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+    min-height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #161b22;
+    border: 1px solid #30363d;
+
+    overflow: hidden;
+}
+
+.lazyleet-modal-logo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.brand-text h1 {
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+}
+
+.brand-text span {
+    display: block;
+
+    margin-top: 1px;
+
+    color: #6e7681;
+
+    font-size: 8.5px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #3fb950;
+}
+
+
+/* =========================
+   DIVIDER
+   ========================= */
+
+.divider {
+    height: 1px;
+
+    margin: 14px 0;
+
+    background: #21262d;
+}
+
+
+/* =========================
+   STATUS
+   ========================= */
+
+.status {
+    padding: 2px 0 13px;
+}
+
+.status-line {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+.status-indicator {
+    width: 7px;
+    height: 7px;
+
+    margin-top: 5px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #3fb950;
+}
+
+.status h2 {
+    margin-bottom: 4px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status p {
+    max-width: 240px;
+
+    color: #8b949e;
+
+    font-size: 9.5px;
+    line-height: 1.4;
+}
+
+
+/* =========================
+   HOW IT WORKS
+   ========================= */
+
+.info {
+    margin-top: 3px;
+}
+
+.info h3 {
+    margin-bottom: 5px;
+
+    color: #6e7681;
+
+    font-size: 8.5px;
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+
+    min-height: 36px;
+
+    border-bottom: 1px solid #161b22;
+}
+
+.step:last-child {
+    border-bottom: none;
+}
+
+.step span {
+    width: 38px;
+
+    flex-shrink: 0;
+
+    color: #484f58;
+
+    font-size: 8.5px;
+    font-weight: 600;
+}
+
+.step p {
+    color: #c9d1d9;
+
+    font-size: 9.5px;
+    line-height: 1.3;
+}
+
+
+/* =========================
+   GITHUB BUTTON
+   ========================= */
+
+#githubBtn {
+    width: 100%;
+    height: 33px;
+
+    margin-top: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    border: 1px solid #30363d;
+    border-radius: 7px;
+
+    background: #161b22;
+    color: #e6edf3;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+#githubBtn:hover {
+    background: #21262d;
+}
+
+#githubBtn:active {
+    transform: scale(0.98);
+}
+
+.arrow {
+    color: #8b949e;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    margin-top: 9px;
+
+    color: #484f58;
+
+    font-size: 8px;
+
+    text-align: center;
+}

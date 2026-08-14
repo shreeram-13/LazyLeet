@@ -10,3 +10,456 @@
     font-size: 14px;
     z-index: 999999;
 }
+
+/* =========================================
+   LazyLeet Submission Side Panel
+   ========================================= */
+
+#lazyleet-modal {
+    position: fixed;
+
+    top: 18px;
+    right: 18px;
+
+    width: 360px;
+
+    z-index: 2147483647;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    background: transparent;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    pointer-events: none;
+}
+
+/* =========================
+   Panel
+   ========================= */
+
+.lazyleet-modal {
+    width: 360px;
+
+    margin-left: auto;
+
+    padding: 20px;
+
+    border: 1px solid #30363d;
+    border-radius: 14px;
+
+    background: #0d1117;
+
+    color: #e6edf3;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.35);
+
+    overflow: hidden;
+
+    pointer-events: auto;
+
+    animation: lazyleet-panel-in 0.18s ease-out;
+}
+
+@keyframes lazyleet-panel-in {
+
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.lazyleet-modal-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: grab;
+    user-select: none;
+}
+
+
+.lazyleet-modal-header:active {
+    cursor: grabbing;
+}
+
+
+.lazyleet-modal-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.lazyleet-modal-logo {
+    width: 34px !important;
+    height: 34px !important;
+
+    min-width: 34px !important;
+    min-height: 34px !important;
+
+    max-width: 34px !important;
+    max-height: 34px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #30363d;
+    border-radius: 9px;
+
+    background: #161b22;
+
+    overflow: hidden;
+}
+
+.lazyleet-modal-logo img {
+    display: block;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    min-width: 34px !important;
+    min-height: 34px !important;
+
+    max-width: 34px !important;
+    max-height: 34px !important;
+
+    object-fit: cover;
+}
+
+
+.lazyleet-modal-brand h2 {
+    margin: 0;
+
+    font-size: 15px;
+    font-weight: 650;
+}
+
+
+.lazyleet-modal-brand span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6e7681;
+
+    font-size: 9px;
+}
+
+
+.lazyleet-close {
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: #8b949e;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+.lazyleet-close:hover {
+    background: #161b22;
+    color: #e6edf3;
+}
+
+
+/* =========================
+   Divider
+   ========================= */
+
+.lazyleet-modal-divider {
+    height: 1px;
+
+    margin: 18px 0;
+
+    background: #21262d;
+}
+
+
+/* =========================
+   Success
+   ========================= */
+
+.lazyleet-success {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 17px;
+}
+
+
+.lazyleet-success-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(63, 185, 80, 0.12);
+
+    color: #3fb950;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+
+.lazyleet-success h3 {
+    margin: 0 0 4px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.lazyleet-success p {
+    margin: 0;
+
+    color: #8b949e;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   Problem
+   ========================= */
+
+.lazyleet-problem {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #21262d;
+    border-radius: 8px;
+
+    background: #11161d;
+}
+
+
+.lazyleet-problem strong {
+    max-width: 220px;
+
+    overflow: hidden;
+
+    color: #c9d1d9;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.lazyleet-problem span {
+    color: #6e7681;
+
+    font-size: 9px;
+}
+
+
+/* =========================
+   Notes
+   ========================= */
+
+.lazyleet-notes-label {
+    display: flex;
+
+    gap: 5px;
+
+    margin-bottom: 7px;
+
+    color: #c9d1d9;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+.lazyleet-notes-label span {
+    color: #6e7681;
+
+    font-weight: 400;
+}
+
+
+.lazyleet-notes {
+    width: 100%;
+    min-height: 100px;
+
+    padding: 10px 11px;
+
+    resize: vertical;
+
+    border: 1px solid #30363d;
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #0d1117;
+
+    color: #e6edf3;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+.lazyleet-notes::placeholder {
+    color: #484f58;
+}
+
+
+.lazyleet-notes:focus {
+    border-color: #58a6ff;
+}
+
+
+/* =========================
+   Actions
+   ========================= */
+
+.lazyleet-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 14px;
+}
+
+
+.lazyleet-btn {
+    width: 100%;
+    height: 36px;
+
+    padding: 0 14px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.lazyleet-btn:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+.lazyleet-btn-primary {
+    border: 1px solid #238636;
+
+    background: #238636;
+
+    color: white;
+}
+
+
+.lazyleet-btn-primary:hover {
+    background: #2ea043;
+}
+
+
+/* =========================
+   Saved state
+   ========================= */
+
+.lazyleet-saved {
+    padding: 35px 5px 5px;
+
+    text-align: center;
+}
+
+
+.lazyleet-saved-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: rgba(63, 185, 80, 0.12);
+
+    color: #3fb950;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+.lazyleet-saved h2 {
+    margin-bottom: 7px;
+
+    font-size: 15px;
+}
+
+
+.lazyleet-saved p {
+    margin-bottom: 18px;
+
+    color: #8b949e;
+
+    font-size: 10px;
+}

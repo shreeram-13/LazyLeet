@@ -64,54 +64,471 @@ function getProblemName() {
 
 function askForNotes(problem, language, code) {
 
-    const saveNotes = confirm(
-        `🎉 ${problem} accepted!\n\nDo you want to save notes for this solution?`
-    );
+    // Remove an existing modal if one somehow remains
+    const existingModal = document.getElementById("lazyleet-modal");
 
-    let notes = "";
-
-    if (saveNotes) {
-        notes = prompt(
-            "📝 Enter your notes for this solution:"
-        ) || "";
+    if (existingModal) {
+        existingModal.remove();
     }
 
-//    console.log("📦 LazyLeet final data:", {
-//        problem,
-//        language,
-//        code,
-//        notes
-//    });
-//
-//    sendToBackend(
-//        problem,
-//        language,
-//        code,
-//        notes
-//    );
 
-    console.log("📦 LazyLeet final data:", {
-        problem,
-        language,
-        code,
-        notes
-    });
+    // ==============================
+    // Modal overlay
+    // ==============================
 
-    console.log("🔥 ABOUT TO CALL BACKEND");
+    const overlay = document.createElement("div");
 
-    console.log(
-        "🔎 sendToBackend type:",
-        typeof sendToBackend
+    overlay.id = "lazyleet-modal";
+
+
+    // ==============================
+    // Modal
+    // ==============================
+
+    const modal = document.createElement("div");
+
+    modal.className = "lazyleet-modal";
+
+
+    // ==============================
+    // Modal content
+    // ==============================
+
+    modal.innerHTML = `
+
+        <div class="lazyleet-modal-header">
+
+            <div class="lazyleet-modal-brand">
+
+                <div class="lazyleet-modal-logo">
+                    ⚡
+                </div>
+
+                <div>
+                    <h2>LazyLeet</h2>
+                    <span>LeetCode → GitHub</span>
+                </div>
+
+            </div>
+
+            <button
+                class="lazyleet-close"
+                id="lazyleet-close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="lazyleet-modal-divider"></div>
+
+
+        <div class="lazyleet-success">
+
+            <div class="lazyleet-success-icon">
+                ✓
+            </div>
+
+            <div>
+                <h3>Solution accepted</h3>
+
+                <p>
+                    Your submission passed all test cases.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="lazyleet-problem">
+
+            <strong>${problem}</strong>
+
+            <span>${language}</span>
+
+        </div>
+
+
+        <label class="lazyleet-notes-label">
+            Add a note
+            <span>optional</span>
+        </label>
+
+
+        <textarea
+            id="lazyleet-notes"
+            class="lazyleet-notes"
+            placeholder="e.g. Used a hash map to get O(n) time..."
+        ></textarea>
+
+
+        <div class="lazyleet-actions">
+
+            <button
+                id="lazyleet-save"
+                class="lazyleet-btn lazyleet-btn-primary"
+            >
+                Save Solution
+            </button>
+
+        </div>
+
+    `;
+
+
+    overlay.appendChild(modal);
+
+    document.body.appendChild(overlay);
+
+
+    // ==============================
+    // Elements
+    // ==============================
+
+    const notesInput =
+        document.getElementById("lazyleet-notes");
+
+    const saveButton =
+        document.getElementById("lazyleet-save");
+
+    const closeButton =
+        document.getElementById("lazyleet-close");
+
+    // ==============================+++++++++++++++++++++++++++++++++++++++++
+
+
+// ==============================
+// Make LazyLeet panel draggable
+// ==============================
+
+const header =
+    modal.querySelector(".lazyleet-modal-header");
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+header.addEventListener("pointerdown", (event) => {
+
+    // Don't drag when clicking the close button
+    if (event.target.closest("#lazyleet-close")) {
+        return;
+    }
+
+    isDragging = true;
+
+    // IMPORTANT:
+    // The fixed element is "overlay", not "modal".
+    const rect = overlay.getBoundingClientRect();
+
+    offsetX = event.clientX - rect.left;
+    offsetY = event.clientY - rect.top;
+
+    // Convert from right-based positioning
+    // to left/top positioning.
+    overlay.style.right = "auto";
+    overlay.style.left = `${rect.left}px`;
+    overlay.style.top = `${rect.top}px`;
+
+    header.setPointerCapture(event.pointerId);
+
+    event.preventDefault();
+});
+
+
+header.addEventListener("pointermove", (event) => {
+
+    if (!isDragging) {
+        return;
+    }
+
+    let newLeft =
+        event.clientX - offsetX;
+
+    let newTop =
+        event.clientY - offsetY;
+
+
+    // Keep panel inside browser window.
+
+    const maxLeft =
+        window.innerWidth - overlay.offsetWidth;
+
+    const maxTop =
+        window.innerHeight - overlay.offsetHeight;
+
+
+    newLeft =
+        Math.max(0, Math.min(newLeft, maxLeft));
+
+    newTop =
+        Math.max(0, Math.min(newTop, maxTop));
+
+
+    // IMPORTANT:
+    // Move the fixed overlay.
+    overlay.style.left = `${newLeft}px`;
+    overlay.style.top = `${newTop}px`;
+
+});
+
+
+header.addEventListener("pointerup", (event) => {
+
+    isDragging = false;
+
+    if (header.hasPointerCapture(event.pointerId)) {
+        header.releasePointerCapture(event.pointerId);
+    }
+
+});
+
+
+header.addEventListener("pointercancel", () => {
+
+    isDragging = false;
+
+});
+
+
+
+
+
+    // ==============================+++++++++++++++++++++++++++++++++++++++++
+    // Close modal
+    // ==============================
+
+    function closeModal() {
+        overlay.remove();
+    }
+
+
+    closeButton.addEventListener(
+        "click",
+        closeModal
     );
 
-    sendToBackend(
-        problem,
-        language,
-        code,
-        notes
+
+    // ==============================
+    // Save solution
+    // ==============================
+
+    async function saveSolution(notes) {
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+
+        try {
+
+            await sendToBackend(
+                problem,
+                language,
+                code,
+                notes
+            );
+
+
+            modal.innerHTML = `
+
+                <div class="lazyleet-modal-header">
+
+                    <div class="lazyleet-modal-brand">
+
+                        <div class="lazyleet-modal-logo">
+                            ⚡
+                        </div>
+
+                        <div>
+                            <h2>LazyLeet</h2>
+                            <span>LeetCode → GitHub</span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="lazyleet-close"
+                        id="lazyleet-close"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="lazyleet-modal-divider"></div>
+
+
+                <div class="lazyleet-saved">
+
+                    <div class="lazyleet-saved-icon">
+                        ✓
+                    </div>
+
+                    <h2>Saved successfully</h2>
+
+                    <p>
+                        Your solution has been saved to GitHub.
+                    </p>
+
+                    <button
+                        id="lazyleet-done"
+                        class="lazyleet-btn lazyleet-btn-primary"
+                    >
+                        Done
+                    </button>
+
+                </div>
+
+            `;
+
+            const savedHeader =
+                modal.querySelector(".lazyleet-modal-header");
+
+            savedHeader.addEventListener("pointerdown", (event) => {
+
+                if (event.target.closest("#lazyleet-close")) {
+                    return;
+                }
+
+                isDragging = true;
+
+                const rect = overlay.getBoundingClientRect();
+
+                offsetX = event.clientX - rect.left;
+                offsetY = event.clientY - rect.top;
+
+                overlay.style.right = "auto";
+                overlay.style.left = `${rect.left}px`;
+                overlay.style.top = `${rect.top}px`;
+
+                savedHeader.setPointerCapture(event.pointerId);
+
+                event.preventDefault();
+            });
+
+
+            savedHeader.addEventListener("pointermove", (event) => {
+
+                if (!isDragging) {
+                    return;
+                }
+
+                let newLeft =
+                    event.clientX - offsetX;
+
+                let newTop =
+                    event.clientY - offsetY;
+
+                const maxLeft =
+                    window.innerWidth - overlay.offsetWidth;
+
+                const maxTop =
+                    window.innerHeight - overlay.offsetHeight;
+
+                newLeft =
+                    Math.max(0, Math.min(newLeft, maxLeft));
+
+                newTop =
+                    Math.max(0, Math.min(newTop, maxTop));
+
+                overlay.style.left = `${newLeft}px`;
+                overlay.style.top = `${newTop}px`;
+            });
+
+
+            savedHeader.addEventListener("pointerup", (event) => {
+
+                isDragging = false;
+
+                if (savedHeader.hasPointerCapture(event.pointerId)) {
+                    savedHeader.releasePointerCapture(event.pointerId);
+                }
+
+            });
+
+
+            savedHeader.addEventListener("pointercancel", () => {
+
+                isDragging = false;
+
+            });
+
+
+            document
+                .getElementById("lazyleet-done")
+                .addEventListener(
+                    "click",
+                    closeModal
+                );
+
+            document
+                .getElementById("lazyleet-close")
+                .addEventListener(
+                    "click",
+                    closeModal
+                );
+
+
+        } catch (error) {
+
+            console.error(
+                "❌ LazyLeet save failed:",
+                error
+            );
+
+
+            saveButton.disabled = false;
+            saveButton.textContent =
+                "Save Solution";
+
+
+            alert(
+                "LazyLeet could not save the solution. Check the backend."
+            );
+        }
+
+    }
+
+
+    // ==============================
+    // Save with notes
+    // ==============================
+
+    saveButton.addEventListener(
+        "click",
+        () => {
+
+            const notes =
+                notesInput.value.trim();
+
+            saveSolution(notes);
+
+        }
     );
 
-    console.log("🔥 BACKEND FUNCTION CALL FINISHED");
+    // ==============================
+    // Click outside modal
+    // ==============================
+
+    overlay.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === overlay) {
+                closeModal();
+            }
+
+        }
+    );
+
+
+    // Focus textarea
+    setTimeout(() => {
+        notesInput.focus();
+    }, 100);
+
 }
 
 async function sendToBackend(problem, language, code, notes) {
@@ -165,6 +582,7 @@ async function sendToBackend(problem, language, code, notes) {
             "❌ LazyLeet could not connect to FastAPI:",
             error
         );
+        throw error;
     }
 }
 
@@ -299,7 +717,7 @@ if (currentResultText === "Accepted") {
     alreadyDetected = true;
     waitingForResult = false;
 
-    alert("🎉 LazyLeet detected Accepted!");
+//    alert("🎉 LazyLeet detected Accepted!");
 
     window.postMessage({
         type: "LAZYLEET_GET_CODE"
