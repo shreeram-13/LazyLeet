@@ -1,515 +1,221 @@
 # ⚡ LazyLeet
 
-### LeetCode → GitHub, without the copy-paste.
-
-LazyLeet is a Chrome extension that automatically saves your accepted
-LeetCode solutions to GitHub.
-
-Instead of copying your code, creating folders, naming files and committing
-everything manually, LazyLeet detects an accepted submission, lets you
-optionally add a note, and saves the solution to your GitHub repository.
+A Chrome extension that saves your accepted LeetCode solutions to GitHub automatically — no copy-paste, no manual commits, no folder juggling everytime.
 
 > Solve it once. Save it automatically.
 
+[![JavaScript](https://img.shields.io/badge/JavaScript-Extension-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)](https://fastapi.tiangolo.com)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Manifest%20V3-blue)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![GitHub API](https://img.shields.io/badge/GitHub-API%20Integration-black)](https://docs.github.com/en/rest)
+[![License](https://img.shields.io/badge/License-MIT-yellow)]()
+
 ---
 
-<!-- 🎥 ADD YOUR BEST DEMO GIF/VIDEO HERE -->
-<!-- Show: Submit on LeetCode → Accepted → LazyLeet panel → Add note → Save Solution → GitHub -->
 
-## 🚀 What is LazyLeet?
+## Why This Project?
 
-If you're solving LeetCode consistently, you probably end up with a
-workflow that looks something like this:
+It all started as a simple idea:
 
-```text
-Solve a problem
-      ↓
-Submit it
-      ↓
-Copy the solution
-      ↓
-Open GitHub
-      ↓
-Create a folder
-      ↓
-Create a file
-      ↓
-Paste the code
-      ↓
-Commit
-````
+> **If I'm already solving the problem, saving the solution shouldn't be another problem.**
 
 It's not difficult.
 
 It's just repetitive.
 
-LazyLeet removes that entire manual step.
+If you're solving LeetCode consistently and saving the solutions to GitHub, you probably end up with a workflow that looks something like this:
 
 ```text
-Submit on LeetCode
-        ↓
-  Accepted submission
-        ↓
-      LazyLeet
-        ↓
-   Add an optional note
-        ↓
-    Save Solution
-        ↓
-       GitHub
+Solve → Submit → Copy code → Open GitHub → Create folder → Create file → Paste code → Commit
+```
+
+LazyLeet removes that loop entirely. 
+
+It watches for an accepted submission, lets you attach an optional note, and pushes the solution straight to a structured GitHub repository — automatically.
+
+
+### With LazyLeet
+
+```text
+Solve → Submit → Accepted → Add note (optional) → Save Solution
 ```
 
 The goal is simple:
 
-**Make saving your solutions something you don't have to think about.**
+> **Make saving your solutions something you don't have to think about.**
+
+---
+
+
+## 🖥️ Demo
+
+https://github.com/user-attachments/assets/503b69a5-0902-471d-9a5e-b7fe03f5a315
+
+### Extension Popup
+
+A lightweight dashboard showing LazyLeet's current status and providing quick access to the GitHub solution repository.
+
+
+
+### Saving a Solution
+
+Once LeetCode reports an accepted submission, LazyLeet opens a draggable side panel where the solution can be reviewed and an optional note can be added.
+
+
+
+### Saved
+
+After the backend successfully processes the request, LazyLeet confirms that the solution has been saved to GitHub.
+
+
+
+### GitHub
+
+The final result is an organized repository containing the saved solutions and optional notes.
+
+
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/29d6285a-af32-4f34-a1ed-014901513888" />
+
+
+---
+
+## What Was Built
+
+| Phase | What | Stack |
+|---|---|---|
+| 1 | Submission detection — watch LeetCode's accepted flow in real time | JavaScript, Chrome Extension APIs |
+| 2 | Code + metadata extraction — problem name, language, submitted code | Content scripts, page-bridge messaging |
+| 3 | Draggable in-page panel — review, annotate, save | HTML, CSS, JavaScript |
+| 4 | FastAPI backend — bridge between the browser and GitHub | Python, FastAPI |
+| 5 | GitHub integration — structured, versioned solution storage | GitHub REST API |
 
 ---
 
 ## ✨ Features
 
-* 🔍 **Accepted submission detection**
-
-  * Detects when a LeetCode submission is accepted.
-
-* 📋 **Automatic code extraction**
-
-  * Captures the submitted solution directly from the LeetCode page.
-
-* 📝 **Optional solution notes**
-
-  * Add a quick explanation, approach, or reminder before saving.
-
-* 🐙 **Automatic GitHub saving**
-
-  * Sends the solution to the backend and saves it to GitHub.
-
-* 📂 **Organized solution storage**
-
-  * Solutions are stored in a structured repository instead of one
-    giant collection of files.
-
-* 🖥️ **Chrome extension interface**
-
-  * A lightweight popup provides the current LazyLeet status and
-    quick access to the solution repository.
-
-* ↔️ **Draggable submission panel**
-
-  * The save panel can be moved around the page without blocking
-    the LeetCode interface.
-
-* 🔗 **Direct GitHub access**
-
-  * Open the solution repository directly from the extension.
+- 🔍 Automatic detection of accepted LeetCode submissions
+- 📋 Automatic extraction of problem name, language, and code
+- 📝 Optional per-solution notes for approaches, complexity, or reminders
+- 🐙 One-click saving directly to a GitHub repository
+- 📂 Organized per-problem folder structure
+- ↔️ Draggable in-page panel that stays out of the way
+- 🔗 Direct access to the solution repository from the extension popup
+- 🖥️ Lightweight Manifest V3 popup showing extension status
+- 🔐 GitHub credentials kept on the backend rather than inside the extension
 
 ---
 
-# ⚙️ How It Works
-
-LazyLeet is split into three main parts:
+## 🏗️ Architecture
 
 ```text
-┌──────────────────────┐
-│       LeetCode       │
-│                      │
-│  User submits code   │
-└──────────┬───────────┘
-           │
-           │ Accepted submission
-           ▼
-┌──────────────────────┐
-│   Chrome Extension   │
-│                      │
-│ • Detect submission  │
-│ • Extract code       │
-│ • Show UI            │
-│ • Collect notes      │
-└──────────┬───────────┘
-           │
-           │ Solution data
-           ▼
-┌──────────────────────┐
-│      FastAPI         │
-│       Backend        │
-│                      │
-│ • Receive solution   │
-│ • Process request    │
-│ • Talk to GitHub     │
-└──────────┬───────────┘
-           │
-           │ GitHub API
-           ▼
-┌──────────────────────┐
-│        GitHub        │
-│                      │
-│   Store solutions    │
-└──────────────────────┘
+                         ┌──────────────────────┐
+                         │       LeetCode       │
+                         │                      │
+                         │   User submits code  │
+                         └──────────┬───────────┘
+                                    │
+                                    │ Submission detection
+                                    ▼
+                         ┌──────────────────────┐
+                         │   Chrome Extension   │
+                         │                      │
+                         │ • Detect submission  │
+                         │ • Extract code       │
+                         │ • Render UI          │
+                         │ • Collect notes      │
+                         └──────────┬───────────┘
+                                    │
+                                    │ HTTP solution payload
+                                    ▼
+                         ┌──────────────────────┐
+                         │    FastAPI Backend   │
+                         │                      │
+                         │ • Receive request    │
+                         │ • Process solution   │
+                         │ • Talk to GitHub     │
+                         └──────────┬───────────┘
+                                    │
+                                    │ GitHub REST API
+                                    ▼
+                         ┌──────────────────────┐
+                         │        GitHub        │
+                         │                      │
+                         │  Organized solution  │
+                         │      repository      │
+                         └──────────────────────┘
 ```
+
+### Client–server split
+
+```text
+extension/  →  everything inside the browser
+               detection · extraction · UI · notes
+
+backend/    →  everything outside the browser
+               GitHub · authentication · storage
+```
+
+The extension handles the LeetCode-facing workflow, while the FastAPI backend handles GitHub operations and repository access.
+
+---
+
+## ⚙️ How It Works
 
 ### 01 — Submit
 
-Write and submit your solution normally on LeetCode.
+Write and submit a solution normally on LeetCode.
 
 ### 02 — Detect
 
-LazyLeet watches the submission flow and detects when the solution
-has been accepted.
+LazyLeet watches the submission flow and detects when the submission is accepted.
 
 ### 03 — Extract
 
-The extension collects the relevant information, including:
+The extension retrieves the relevant information:
 
-* Problem name
-* Programming language
-* Submitted code
+- Problem name
+- Programming language
+- Submitted code
 
 ### 04 — Review
 
-A small side panel appears on the page.
-
-You can add an optional note explaining your approach, complexity,
-or anything you want to remember later.
+A draggable side panel appears with the accepted status and an optional notes field.
 
 ### 05 — Save
 
-Click **Save Solution**.
-
-The extension sends the solution data to the FastAPI backend.
+Clicking **Save Solution** sends the solution payload to the FastAPI backend.
 
 ### 06 — Store
 
-The backend communicates with GitHub and stores the solution in the
-configured repository.
+The backend communicates with GitHub and creates the required solution files and folders inside the configured repository.
 
----
-
-## 🎥 See It In Action
-
-<!-- 📹 ADD A SHORT DEMO VIDEO/GIF HERE -->
-
-<!-- Recommended: 10–20 seconds, no narration required. -->
-
-### The workflow
+The complete workflow becomes:
 
 ```text
 LeetCode
-   ↓
+    ↓
 Accepted
-   ↓
-LazyLeet panel
-   ↓
+    ↓
+LazyLeet
+    ↓
 Optional note
-   ↓
+    ↓
 Save Solution
-   ↓
+    ↓
+FastAPI
+    ↓
 GitHub
 ```
 
-<!-- 📸 ADD SCREENSHOT: LazyLeet popup -->
-
-<!-- 📸 ADD SCREENSHOT: Accepted submission + LazyLeet side panel -->
-
-<!-- 📸 ADD SCREENSHOT: Resulting GitHub repository -->
-
 ---
 
-# 🧠 Why I Built It
+## 📦 GitHub Output
 
-While solving problems consistently, I noticed that saving solutions
-to GitHub was almost as repetitive as solving the problem itself.
+Before using LazyLeet, create an **empty GitHub repository** where you want your solutions to be stored.
 
-The actual work wasn't difficult.
+LazyLeet currently does **not** create the GitHub repository itself.
 
-It was the small things:
-
-* copying the solution
-* creating folders
-* naming files
-* switching between applications
-* writing notes
-* committing changes
-
-LazyLeet started with a simple idea:
-
-> **What if saving an accepted solution was just one click?**
-
-That became the project.
-
----
-
-# 🏗️ Architecture
-
-LazyLeet uses a small client–server architecture.
-
-### Chrome Extension
-
-The extension is responsible for everything happening inside the browser.
-
-It handles:
-
-* LeetCode page interaction
-* Submission detection
-* Solution extraction
-* User interface
-* Notes
-* Communication with the backend
-
-### FastAPI Backend
-
-The backend acts as the bridge between the extension and GitHub.
-
-It handles:
-
-* Receiving solution data
-* Processing the request
-* GitHub integration
-* Creating/updating solution files
-
-### GitHub
-
-GitHub acts as the final storage layer.
-
-It provides:
-
-* Version control
-* Repository organization
-* Accessible solution history
-* A permanent home for saved solutions
-
----
-
-# 🛠️ Tech Stack
-
-| Part                   | Technology                      |
-| ---------------------- | ------------------------------- |
-| Browser Extension      | JavaScript                      |
-| Extension UI           | HTML + CSS                      |
-| Backend                | Python                          |
-| API Framework          | FastAPI                         |
-| Storage                | GitHub                          |
-| Repository Integration | GitHub API                      |
-| Browser Platform       | Chrome Extensions / Manifest V3 |
-
-The project intentionally keeps the stack relatively small.
-
-There isn't a database just for the sake of having one.
-
-The solutions are already code, and GitHub provides exactly what
-the project needs for storing and versioning them.
-
----
-
-# 📁 Project Structure
-
-```text
-LazyLeet/
-│
-├── backend/
-│   ├── github_api.py
-│   └── main.py
-│
-├── extension/
-│   ├── icons/
-│   │   └── lazyleetlogo.png
-│   │
-│   ├── content.js
-│   ├── manifest.json
-│   ├── page-bridge.js
-│   ├── popup.css
-│   ├── popup.html
-│   ├── popup.js
-│   └── styles.css
-│
-├── .gitignore
-├── .gitattributes
-├── README.md
-└── requirements.txt
-```
-
-### Important files
-
-| File             | Purpose                                                                     |
-| ---------------- | --------------------------------------------------------------------------- |
-| `content.js`     | Handles LeetCode interaction, submission detection and the main LazyLeet UI |
-| `page-bridge.js` | Handles communication with the LeetCode page                                |
-| `manifest.json`  | Chrome extension configuration                                              |
-| `popup.html`     | Extension popup structure                                                   |
-| `popup.css`      | Popup styling                                                               |
-| `popup.js`       | Popup behavior                                                              |
-| `styles.css`     | Styles for the submission panel                                             |
-| `main.py`        | FastAPI backend                                                             |
-| `github_api.py`  | GitHub API integration                                                      |
-
----
-
-# 🚀 Getting Started
-
-## Prerequisites
-
-Before running LazyLeet, you'll need:
-
-* Google Chrome
-* Python 3.x
-* Git
-* A GitHub account
-* A GitHub Personal Access Token
-
----
-
-## 1. Clone the repository
-
-```bash
-git clone <YOUR_REPOSITORY_URL>
-cd LazyLeet
-```
-
----
-
-## 2. Create a virtual environment
-
-### Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-### macOS / Linux
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
----
-
-## 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 4. Configure environment variables
-
-Create a `.env` file in the backend directory or project root,
-depending on the backend configuration.
-
-Example:
-
-```env
-GITHUB_TOKEN=your_github_token
-GITHUB_USERNAME=your_github_username
-GITHUB_REPO=your_solution_repository
-```
-
-> **Never commit your `.env` file or GitHub token to the repository.**
-
-The project includes a `.gitignore` configuration to prevent local
-environment files and other development files from being committed.
-
----
-
-# 🧩 Load the Extension
-
-LazyLeet is currently loaded as an unpacked Chrome extension.
-
-### Step 1
-
-Open:
-
-```text
-chrome://extensions
-```
-
-### Step 2
-
-Enable **Developer mode**.
-
-### Step 3
-
-Click:
-
-```text
-Load unpacked
-```
-
-### Step 4
-
-Select the project's:
-
-```text
-extension/
-```
-
-directory.
-
-### Step 5
-
-Pin LazyLeet from the Chrome extensions menu.
-
-### Step 6
-
-Open a LeetCode problem and submit a solution.
-
----
-
-# ▶️ Using LazyLeet
-
-The normal workflow is:
-
-```text
-1. Open a LeetCode problem
-2. Write your solution
-3. Submit it
-4. Wait for the Accepted result
-5. LazyLeet detects the submission
-6. The save panel appears
-7. Add an optional note
-8. Click "Save Solution"
-9. Check your GitHub repository
-```
-
-The original LeetCode page remains accessible while the LazyLeet
-panel is open.
-
-The panel can also be dragged around the page.
-
----
-
-<!-- 📸 ADD SCREENSHOT: LazyLeet popup showing "LazyLeet is ready" -->
-
-## 🖥️ Extension Popup
-
-The popup gives a quick overview of LazyLeet's current state.
-
-It also provides direct access to the GitHub repository where your
-solutions are stored.
-
----
-
-<!-- 📸 ADD SCREENSHOT: Accepted submission with LazyLeet side panel -->
-
-## 💾 Saving a Solution
-
-Once a submission is accepted, LazyLeet opens a side panel containing:
-
-* The accepted status
-* Problem name
-* Programming language
-* Optional notes field
-* Save Solution button
-
-The panel is intentionally lightweight so that it doesn't get in
-the way of the LeetCode interface.
-
----
-
-# 📦 GitHub Output
-
-The main result of LazyLeet is an organized repository containing
-your solutions.
+Instead, once the repository is configured, LazyLeet automatically creates and organizes the solution files and problem folders inside it.
 
 For example:
 
@@ -528,191 +234,301 @@ LazyLeet-Solutions/
     └── notes.md
 ```
 
-This turns GitHub into a searchable collection of solved problems
-without requiring manual file management after every submission.
+If multiple solutions are saved for the same problem, the backend handles file naming so existing solutions are not accidentally overwritten.
 
 ---
 
-<!-- 📸 ADD SCREENSHOT: Your actual LazyLeet-Solutions GitHub repository -->
+## 🛠️ Tech Stack
 
-# 🔐 Security
+| Layer | Technology | Purpose |
+|---|---|---|
+| Extension | JavaScript, HTML, CSS | Browser interaction and UI |
+| Platform | Chrome Extensions, Manifest V3 | Runs LazyLeet inside Chrome |
+| Backend | FastAPI | API layer between the extension and GitHub |
+| Storage | GitHub REST API | Source-code storage and version control |
+| Authentication | GitHub Personal Access Token | Controlled repository access |
 
-LazyLeet requires GitHub authentication to save solutions to your
-repository.
+---
 
-Sensitive credentials such as GitHub tokens should be stored in
-environment variables and must never be committed to source control.
+## 🧠 Key Design Decisions
 
-The repository intentionally excludes:
+### No database
+
+The primary data being stored is source code.
+
+GitHub already provides file storage, version control, history, and organization, so introducing a database would add another layer without solving a current requirement.
+
+### Separate extension and backend
+
+The extension handles everything LeetCode-facing:
 
 ```text
-.env
-venv/
-.venv/
-__pycache__/
-*.pyc
+Detection
+Extraction
+UI
+Notes
+```
+
+The backend handles everything GitHub-facing:
+
+```text
+Authentication
+Repository operations
+File creation
+Commits
+```
+
+This keeps both sides easier to modify independently.
+
+### GitHub credentials stay server-side
+
+The extension does not directly communicate with GitHub.
+
+Solution data is sent to the FastAPI backend, which handles the GitHub request using the configured credentials.
+
+### Explicit saving instead of automatic syncing
+
+LazyLeet does not automatically save every accepted submission.
+
+The user explicitly clicks **Save Solution**, giving them control over what gets added to their repository and allowing them to add notes before saving.
+
+---
+
+## 📁 Project Structure
+
+```text
+LazyLeet/
+│
+├── backend/
+│   ├── main.py                 # FastAPI backend
+│   └── github_api.py           # GitHub API integration
+│
+├── extension/
+│   ├── icons/
+│   │   └── lazyleetlogo.png
+│   │
+│   ├── content.js              # Submission detection + main UI logic
+│   ├── page-bridge.js          # Communication with the LeetCode page
+│   ├── manifest.json           # Chrome extension configuration
+│   ├── popup.html              # Extension popup structure
+│   ├── popup.js                # Popup behavior
+│   ├── popup.css               # Popup styling
+│   └── styles.css              # Submission panel styling
+│
+├── .gitignore
+├── .gitattributes
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-# 🧠 Design Decisions
+## 🚀 Run Locally
 
-## Why a Chrome extension?
+### Prerequisites
 
-The main problem exists directly inside the LeetCode browser workflow.
+Before running LazyLeet, you'll need:
 
-A Chrome extension allows LazyLeet to detect submissions and provide
-the saving interface without forcing the user to manually copy data
-between applications.
+- Google Chrome
+- Python 3.x
+- Git
+- A GitHub account
+- A GitHub Personal Access Token
+- An existing GitHub repository where your solutions will be stored
 
----
-
-## Why FastAPI?
-
-FastAPI provides a lightweight way to expose the backend functionality
-while keeping the server-side code simple and easy to extend.
-
-It also fits naturally with the Python-based backend.
+> **Create the GitHub repository before configuring LazyLeet.**
+>
+> LazyLeet currently creates and organizes solution files inside the configured repository — it does **not** create the repository itself.
 
 ---
 
-## Why GitHub instead of a database?
+### 1. Clone the repository
 
-The primary data being stored is source code.
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd LazyLeet
+```
 
-GitHub already provides:
+### 2. Create a virtual environment
 
-* File storage
-* Version control
-* Repository organization
-* History
-* Easy access from anywhere
+#### Windows
 
-Adding a database would introduce another layer without solving the
-core problem.
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+#### macOS / Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file in the backend directory:
+
+```env
+GITHUB_TOKEN=your_github_token
+GITHUB_USERNAME=your_github_username
+GITHUB_REPO=your_solution_repository
+```
+
+The repository specified in `GITHUB_REPO` must already exist under the configured GitHub account.
+
+For example:
+
+```text
+GitHub
+└── your-username
+    └── LazyLeet-Solutions   ← create this first
+```
+
+LazyLeet will then create and update the solution files and folders inside that repository.
+
+> **Never commit `.env` or a raw GitHub token to the repository.**
 
 ---
 
-## Why separate the extension and backend?
+### 5. Start the backend
 
-The browser extension handles the user-facing interaction and
-LeetCode-specific logic.
+```bash
+cd backend
+uvicorn main:app --reload
+```
 
-The backend handles GitHub operations.
+The API will be available at:
 
-Keeping these responsibilities separate makes the project easier to
-modify and maintain.
-
----
-
-# ⚠️ Current Limitations
-
-LazyLeet is still a personal project and currently has a few limitations:
-
-* Currently designed for Chrome.
-* Requires a running/configured backend.
-* Requires GitHub authentication.
-* Depends on the current structure and behavior of LeetCode's pages.
-* The project is currently intended for personal use rather than
-  large-scale deployment.
-* Error handling and recovery can still be improved.
-
-These are areas I'd like to address as the project evolves.
+```text
+http://localhost:8000
+```
 
 ---
 
-# 🛣️ Roadmap
+### 6. Load the extension
+
+1. Open `chrome://extensions`
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select the project's `extension/` directory
+5. Pin LazyLeet from the extensions menu
+6. Open a LeetCode problem
+7. Submit a solution
+
+If the submission is accepted, the LazyLeet panel should appear.
+
+---
+
+## 🔐 Security
+
+The current version is designed primarily for personal/local use.
+
+- GitHub tokens are stored in server-side environment variables
+- `.env` is excluded from source control
+- `venv/`, `.venv/`, `__pycache__/`, and compiled files are ignored
+- The extension does not directly communicate with GitHub
+- GitHub operations are handled by the FastAPI backend
+
+> **Never place a real GitHub token inside the extension source code.**
+
+---
+
+## ⚠️ Current Limitations
+
+LazyLeet is currently a working prototype rather than a production multi-user service.
+
+Current limitations include:
+
+- Chrome-only
+- Requires a running and configured backend
+- Requires manual GitHub token configuration
+- Depends on LeetCode's current page structure and submission flow
+- Designed primarily for personal use
+- Limited retry and recovery handling for failed requests
+- No GitHub OAuth flow yet
+- No public deployment yet
+
+These are areas planned for future development as the project evolves.
+
+---
+
+## 🛣️ Roadmap
 
 ### Completed
 
-* [x] Detect accepted LeetCode submissions
-* [x] Extract submitted code
-* [x] Identify problem and language
-* [x] FastAPI backend
-* [x] GitHub API integration
-* [x] Optional solution notes
-* [x] LazyLeet extension popup
-* [x] Accepted-submission side panel
-* [x] Draggable side panel
-* [x] GitHub repository integration
-* [x] Custom LazyLeet branding
+- [x] Detect accepted LeetCode submissions
+- [x] Extract submitted code, problem name, and language
+- [x] Optional solution notes
+- [x] FastAPI backend
+- [x] GitHub API integration
+- [x] Structured solution storage
+- [x] Draggable side panel
+- [x] Extension popup
+- [x] Custom LazyLeet branding
+- [x] Automatic solution file naming
 
-### Next
+### Planned
 
-* [ ] Better error handling and retry logic
-* [ ] GitHub OAuth instead of manual token configuration
-* [ ] Improved repository organization
-* [ ] Better support for edge cases in submission detection
-* [ ] More polished onboarding
-* [ ] Chrome Web Store release
-* [ ] Support for additional coding platforms
-
----
-
-# 🔮 What's Next?
-
-The current version focuses on one thing:
-
-**Automatically getting an accepted solution from LeetCode into GitHub.**
-
-The next step would be making LazyLeet more useful beyond simply
-saving code.
-
-Some ideas include:
-
-* Automatically generating solution summaries
-* Tracking solved problems
-* Showing basic solving statistics
-* Organizing solutions by topic
-* Generating better notes
-* Supporting more coding platforms
-
-The project can eventually become more than a solution saver —
-it could become a small personal coding archive.
+- [ ] Better error handling and retry logic
+- [ ] Duplicate solution handling
+- [ ] Automated backend tests
+- [ ] Improved repository organization
+- [ ] GitHub OAuth instead of manual token configuration
+- [ ] Solution statistics and dashboard
+- [ ] Optional AI-generated solution summaries
+- [ ] Public backend deployment
+- [ ] Chrome Web Store release
+- [ ] Support for additional coding platforms
 
 ---
 
-# 🤝 Contributing
+## 💡 What I Learned
 
-LazyLeet is currently a personal project, but ideas, suggestions and
-contributions are welcome.
+Building LazyLeet ended up being less about one specific technology and more about connecting several pieces into one working system.
 
-If you find a bug or have an idea for improving the project:
+Some of the biggest takeaways were:
 
-1. Open an issue
-2. Describe the problem or idea
-3. Fork the repository
-4. Create a branch
-5. Make your changes
-6. Open a pull request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
-See the `LICENSE` file for details.
+- Browser-side and server-side responsibilities need to be clearly separated.
+- Third-party API credentials should never be unnecessarily exposed to the client.
+- Not every storage problem needs a database.
+- Small repetitive workflows are often great candidates for automation.
+- Building against a real website introduces edge cases that don't appear when working with isolated code.
+- Connecting the extension, backend, API integration, and UI gave me a much better understanding of how the pieces of a real application communicate.
 
 ---
 
-# 👨‍💻 Built By
+## 🤝 Contributing
+
+LazyLeet is currently a personal project, but ideas, suggestions, and contributions are welcome.
+
+If you find a bug or have an idea:
+
+1. Open an issue describing the problem or feature
+2. Fork the repository
+3. Create a branch
+4. Make your changes
+5. Open a pull request
+
+---
+
+## 📄 License
+
+LazyLeet is intended to be released under the **MIT License**.
+
+An official `LICENSE` file will be added before the project's public release.
+
+---
+
+## 👨‍💻 Built By
 
 **Shree Ram Jamana**
 
 B.Tech CSE · Applied AI & Backend Development
 
-LazyLeet started as a simple idea:
-
-> **If I'm already solving the problem, saving the solution shouldn't
-> be another problem.**
-
----
-
-<p align="center">
-
-### ⚡ LazyLeet
-
-**Solve. Submit. Save.**
-
-</p>
