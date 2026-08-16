@@ -55,17 +55,26 @@ https://github.com/user-attachments/assets/503b69a5-0902-471d-9a5e-b7fe03f5a315
 
 A lightweight dashboard showing LazyLeet's current status and providing quick access to the GitHub solution repository.
 
+<img width="1920" height="1200" alt="Screenshot 2026-08-15 204233" src="https://github.com/user-attachments/assets/22060b81-e527-429c-a6f0-fe9610366126" />
+
+
 
 
 ### Saving a Solution
 
 Once LeetCode reports an accepted submission, LazyLeet opens a draggable side panel where the solution can be reviewed and an optional note can be added.
 
+<img width="1920" height="1200" alt="Screenshot 2026-08-15 204514" src="https://github.com/user-attachments/assets/1c772f0a-ae66-43e0-b4d5-af4aefd3d348" />
+
+
 
 
 ### Saved
 
 After the backend successfully processes the request, LazyLeet confirms that the solution has been saved to GitHub.
+
+<img width="1920" height="1200" alt="Screenshot 2026-08-15 204529" src="https://github.com/user-attachments/assets/dde340cd-f9eb-4aaf-89e1-2df582136402" />
+
 
 
 
